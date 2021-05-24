@@ -5,30 +5,25 @@ on:
     branches:
     - main
     - development
-custom:
-  enabled:
-    dev: false
-    prod: true
 
 
-name: CI
-on: push
-jobs:
-  prod-check:
+
+
+  project_card:
     if: main
     runs-on: ubuntu-latest
     steps:
       - run: echo "Deploying to production server on branch main"
 
-jobs:
-  dev-check:
+
+  deployment:
     if: main
     runs-on: ubuntu-latest
     steps:
       - run: echo "Deploying to production server on branch development"
 
-jobs:
-  deploy_lambda:
+
+  deployment_status:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
