@@ -5,6 +5,12 @@ on:
     branches:
     - main
     - development
+custom:
+  enabled:
+    dev: false
+    prod: true
+
+enabled: ${self:custom.enabled.${opt:stage, self:provider.stage}}
 
 jobs:
   deploy_lambda:
