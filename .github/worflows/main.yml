@@ -10,7 +10,22 @@ custom:
     dev: false
     prod: true
 
-enabled: ${self:custom.enabled.${opt:stage, self:provider.stage}}
+
+name: CI
+on: push
+jobs:
+  prod-check:
+    if: main
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying to production server on branch main"
+
+jobs:
+  dev-check:
+    if: main
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying to production server on branch development"
 
 jobs:
   deploy_lambda:
