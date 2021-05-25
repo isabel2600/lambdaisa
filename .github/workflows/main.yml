@@ -7,23 +7,15 @@ on:
     - development
 
 
-
-
-  project_card:
-    if: main
+jobs:
+  prod-check:
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploying to production server on branch main"
+      - run: echo "Deploying to production server on branch $GITHUB_REF"
 
 
-  deployment:
-    if: main
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Deploying to production server on branch development"
-
-
-  deployment_status:
+  deploy_lambda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -46,3 +38,6 @@ on:
           npx ncc build index.ts
           zip -j deploy.zip ./dist/*
           aws lambda update-function-code --function-name=myfunctionCI --zip-file=fileb://deploy.zip
+
+
+ 
