@@ -6,15 +6,7 @@ on:
     - main
     - development
 
-
 jobs:
-  prod-check:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Deploying to production server on branch $GITHUB_REF"
-
-
   deploy_lambda:
     runs-on: ubuntu-latest
     steps:
@@ -22,23 +14,22 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+      - name: conditional command based on stage
+          if main; then
+          steps:
+            - run: echo "Deploying to production server on branch main"
+          else
+          steps:
+            - run: echo "Deploying to development server on branch development"
+            
+          fi
 
       - name: npm install
         env:
           CI: true
         run: |
           npm ci
-      - name: deploy
-        run: |
-          npx ncc build index.ts
-          zip -j deploy.zip ./dist/*
-          aws lambda update-function-code --function-name=myfunctionCI --zip-file=fileb://deploy.zip
+
 
 
  
