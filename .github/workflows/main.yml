@@ -5,6 +5,8 @@ on:
     branches:
     - main
     - development
+    
+ 
 
 jobs:
   deploy_lambda:
@@ -14,15 +16,16 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - name: conditional command based on stage
-          if main; then
-          steps:
-            - run: echo "Deploying to production server on branch main"
-          else
-          steps:
-            - run: echo "Deploying to development server on branch development"
-            
-          fi
+          
+
+  dev-check:
+    if: main; then
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying to production server on branch main"
+         else
+      - run: echo "Deploying to development server on branch development"       
+ 
 
       - name: npm install
         env:
