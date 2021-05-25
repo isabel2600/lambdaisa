@@ -10,23 +10,6 @@ custom:
     dev: false
     prod: true
 
-
-name: CI
-on: push
-jobs:
-  prod-check:
-    if: main
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Deploying to production server on branch main"
-
-jobs:
-  dev-check:
-    if: main
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Deploying to production server on branch development"
-
 jobs:
   deploy_lambda:
     runs-on: ubuntu-latest
@@ -35,6 +18,13 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
+      - name: main branch based on prod stage
+        if: 
+        run: echo "Deploying to prod stage on branch main"
+      - name: dev branch based on dev stage
+        if: 
+        run: echo "Deploying to dev stage server on branch development"
+        
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
