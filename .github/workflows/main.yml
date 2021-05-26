@@ -17,12 +17,14 @@ jobs:
         with:
           node-version: '12'
       - if: ${{ github.ref == 'refs/heads/main' }}
-        name: IF
-        run: echo "Deploying to production server on branch main"
+        name: enviroment production
+        run: sls deploy -s prod
       - if:  ${{ github.ref == 'refs/heads/development' }}
-        name: Else
-        run:  echo "Deploying to development server on branch development"
-
+        name: enviroment development
+        run: sls deploy -s dev
+      - if:  ${{ github.ref == 'refs/heads/release' }}
+        name: enviroment release
+        run:  sls deploy -s hml
 
       - name: npm install
         env:
