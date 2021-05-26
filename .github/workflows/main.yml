@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
+      - name: Install Serverless Framework
+        run: npm install -g serverless
       - if: ${{ github.ref == 'refs/heads/main' }}
         name: enviroment production
         run: sls deploy -s prod
@@ -31,6 +33,7 @@ jobs:
           CI: true
         run: |
           npm ci
+
 
 
 
