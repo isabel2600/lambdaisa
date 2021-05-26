@@ -3,7 +3,12 @@ name: Deploy
 on:
   push:
     branches:
-    - master
+    - main
+    - development
+custom:
+  enabled:
+    dev: false
+    prod: true
 
 jobs:
   deploy_lambda:
@@ -13,6 +18,13 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
+      - name: main branch based on prod stage
+        if: 
+        run: echo "Deploying to prod stage on branch main"
+      - name: dev branch based on dev stage
+        if: 
+        run: echo "Deploying to dev stage server on branch development"
+        
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
