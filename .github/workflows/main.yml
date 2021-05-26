@@ -29,11 +29,6 @@ jobs:
         name: enviroment release
         run:  sls deploy -s hml
 
-      - name: npm install
-        env:
-          CI: true
-        run: |
-          npm ci
 
 
 
